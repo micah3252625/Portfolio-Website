@@ -25,7 +25,7 @@ SECRET_KEY = '6c43flzg#gzzesh@*74y(9vrkba-(0ixo8f%_k4nf82ygdi#67'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['micahportfolio.pythonanywhere.com']
+ALLOWED_HOSTS = ['micahportfolio.pythonanywhere.com', ]
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'micah3252625@gmail.com'
@@ -151,8 +151,11 @@ AUTHENTICATION_BACKENDS = [
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-
-
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    print("No local file!. You must be on production")
