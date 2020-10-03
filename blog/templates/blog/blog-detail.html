@@ -1,0 +1,142 @@
+{% extends 'portfolio/base.html' %}
+
+{% block content %}
+
+      <section class="ftco-section">
+        <div class="container mt-5">
+        	<div class="row justify-content-center mb-5 pb-5">
+            <div class="col-md-7 text-center heading-section ftco-animate">
+              <span>Blog</span>
+              <h2>Read my blog</h2>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div class="col-md-8">
+              <h2 class="mb-3">{{ post.title }}</h2>
+              <p align = justify>{{ post.description|safe }}</p>
+              <p>
+                <img src="{{ post.image.url }}" alt="" class="img-fluid">
+              </p>
+
+              <!-- Category -->
+                <div class="d-flex justify-content-center ag-widget post-tag-container mb-5 mt-5">
+                  <div class="tagcloud">
+                    <a href="#" class="tag-cloud-link">Life</a>
+                    <a href="#" class="tag-cloud-link">Sport</a>
+                    <a href="#" class="tag-cloud-link">Tech</a>
+                    <a href="#" class="tag-cloud-link">Django</a>
+                  </div>
+                </div>
+              <!-- Category -->
+              <!-- about the authot
+              <div class="about-author d-flex pt-5">
+                <div class="bio align-self-md-center mr-4">
+                  <img src="{{ STATIC_URL }}/../static/portfolio/images/micah2.png" alt="Image placeholder" class="img-fluid mb-4">
+                </div>
+                <div class="desc align-self-md-center">
+                  <h3>About The Author</h3>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos fugit cupiditate numquam!</p>
+                </div>
+              </div>
+              -->
+              <!-- COMMENT SECTION -->
+              <div class="main-comment-section pt-5 mt-5" id="comments">
+                {% with comments.count as total_comments %}
+                <h3 class="mb-5">{{ total_comments }} Comment{{ total_comments|pluralize }}</h3>
+                {% endwith %}
+
+                <ul class="comment-list container">
+                  {% load mptt_tags %}
+                    {% recursetree comments %}
+                  <li class="comment" style="margin-bottom: 0px">
+
+                    <div class="vcard bio">
+                      <img src="{{ STATIC_URL }}/../static/portfolio/images/user.jpg" alt="Image placeholder">
+                    </div>
+                    <div class="comment-body" id="{{ node.id }}" style="padding-bottom: 20px">
+                      <h3>{{ node.name }}</h3>
+                        <div class="meta">{{ node.publish|date }} AT {{ node.publish|time:"h:i a" }}</div>
+                        <p style="margin: 0">{{  node.message|linebreaks }}</p>
+
+                        {% if node.level < 3 %}
+                        <a href="#new-form" onclick="reply({{ node.id }})" class="reply" style="border: none; outline: none; margin-bottom: 20px">Reply</a>
+                        {% endif %}
+                    </div>
+                    {% if not node.is_leaf_node %}
+
+                        <ul class="children" style="margin-bottom: 20px; padding: 20px 0px 10px 40px">
+                          {% if node.level > 3 %}
+                          <div class="vcard bio">
+                            <img src="{{ STATIC_URL }}/../static/portfolio/images/user.jpg" alt="Image placeholder">
+                          </div>
+                          {% endif %}
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+
+                    {% endrecursetree %}
+                  </li>
+
+                </ul>
+
+
+                    <div class="comment-form-wrap pt-5">
+                      <h3 class="mb-5">Leave a comment</h3>
+                      <form id="comment-form"  method="post">
+                        {{ comment_form.as_p }}
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
+                        </div>
+                      </form>
+                    </div>
+                </div>
+              </div> <!-- .col-md-8 -->
+            </div>
+      </div>
+      </section>
+
+      <script type="text/javascript">
+        function replyFormExit(){
+          document.getElementById('new-form').remove();
+        }
+        function reply(id){
+          if (document.contains(document.getElementById("new-form"))){
+            document.getElementById('new-form').remove();
+          }
+
+          var a = document.getElementById(id);
+          a.insertAdjacentHTML('afterend',
+          '<form id="new-form" class="form-insert comment-form-wrap pt-5" method="post" >\
+              <div class="d-flex justify-content-between align-items-center" style="outline: none">\
+                <h3>Reply: </h3>\
+                <button type="button" class="close" onclick="replyFormExit()" style="color: white; padding: 20px 0px;">\
+                  <span aria-hidden="true" >&times;</span>\
+                </button></div>\
+              <div class="form-group">\
+                <label for="id_name">Name: </label>\
+                <input name="name" type="text" class="form-control" id="id_name" required>\
+              </div>\
+              <select class="d-none" name="parent" id="id_parent">\
+                <option value="' + id + '" selected="' + id + '"></option>\
+              </select>\
+              <div class="form-group">\
+                <label for="id_email">Email: </label>\
+                <input name="email" type="email" class="form-control" id="id_email" required>\
+              </div>\
+              <div class="form-group">\
+                <label for="id_messsage">Message: </label>\
+                <textarea name="message" id="id_message" cols="30" rows="10" class="form-control" required></textarea>\
+              </div>\
+                {% csrf_token %}\
+              <div class="form-group">\
+                <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">\
+              </div>\
+              </form>');
+        }
+
+
+      </script>
+
+
+    {% endblock %}

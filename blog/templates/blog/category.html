@@ -1,0 +1,57 @@
+{% extends 'portfolio/base.html' %}
+{% block content %}
+
+{% load static %}
+
+      <!-- BLOG SECTION -->
+      <section class="ftco-section">
+	      <div class="container mt-5">
+	      	<div class="row justify-content-center mb-5 pb-5">
+            <div class="col-md-7 text-center heading-section ftco-animate">
+              <span>Blog</span>
+              <h2>List of {{ catlist.cat }} posts</h2>
+            </div>
+          </div>
+
+	        <div class="row">
+            {% for post in catlist.posts %}
+	          <div class="col-md-4 ftco-animate">
+	            <div class="blog-entry">
+	              <a href="{{ post.get_absolute_url }}" class="block-20" style="background-image: url('{{ post.image.url }}');">
+	              </a>
+
+	              <div class="text p-4 d-block">
+	                <div class="meta mb-3">
+	                  <div><a href="#">{{ post.publish|date }} | {{ post.publish|time:"h:i a" }}</a></div>
+	                </div>
+	                <h3 class="heading"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+	              </div>
+
+	            </div>
+	          </div>
+            {% endfor %}
+	        </div>
+
+
+
+          <!-- PAGINATION OG BLOGS
+          <div class="row mt-5">
+            <div class="col text-center">
+              <div class="block-27">
+                <ul>
+                  <li><a href="#">&lt;</a></li>
+                  <li class="active"><span>1</span></li>
+                  <li><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#">4</a></li>
+                  <li><a href="#">5</a></li>
+                  <li><a href="#">&gt;</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+           PAGINATION OG BLOGS -->
+	      </div>
+	    </section>
+      <!-- BLOG SECTION -->
+{% endblock %}
