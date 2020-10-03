@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '6c43flzg#gzzesh@*74y(9vrkba-(0ixo8f%_k4nf82ygdi#67'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['micahportfolio.pythonanywhere.com']
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'micah3252625@gmail.com'
@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'portfolio',
     'mptt',
     'django.contrib.sites',
-    
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -129,7 +129,6 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Manila'
 
-
 USE_I18N = True
 
 USE_L10N = True
@@ -150,8 +149,9 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATICFILES_DIRS = ('C:/Users/lenst/Desktop/PortfolioProject - project/portfolio/static',)
+
 
 
 MEDIA_URL = '/media/'
